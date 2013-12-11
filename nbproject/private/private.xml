@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="Datacommunicatie">
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/java/services/BedrijfService.java</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/setup/glassfish-resources.xml</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/java/domain/Bedrijf.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/java/util/HttpsFilter.java</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/setup/glassfish-resources.xml</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/java/services/StageAanvraagService.java</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/conf/persistence.xml</file>
+            <file>file:/C:/Hogent/3de%20Jaar/Java/stageRegwc/trunk/stageRegWeb/src/java/services/StageplaatsService.java</file>
+        </group>
+    </open-files>
+</project-private>

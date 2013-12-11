@@ -1,0 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package helper;
+
+import domain.Bedrijf;
+import exceptions.IdNotFoundException;
+import exceptions.QueryParameterMissmatch;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ * Implements various, often reused query methods
+ *
+ * @version 1.0
+ * @author pieter
+ */
+public final class Queries {
+
+    @PersistenceContext
+    private static EntityManager entityManager;
+
+    private Queries() {
+
+    }
+
+    /**
+     * Basic results by ID method
+     *
+     * @param id query id
+     * @param entityObjectClass the class in which the query resides
+     * @param namedQuery the name of the query to be used
+     * @return toString() result of the queried object
+     * @throws IllegalArgumentException All exceptions regarding ID's
+     */
+    public static String getResultById(int id, Class entityObjectClass, String namedQuery) throws IllegalArgumentException {
+        //validate the input id parameter
+        idValidator.validate(id);
+
+        //Build query        
+        Query query = entityManager.createNamedQuery(namedQuery, entityObjectClass);
+        try {
+            query.setParameter("id", id);
+        } catch (Exception e) {
+            //throw new exception with the original stack trace
+            throw new QueryParameterMissmatch("The query id parameter is not set to \":id\" in query " + namedQuery, e);
+        }
+
+        //Fetch results
+        List results = query.getResultList();
+
+        //Check results
+        if (results.isEmpty()) {
+            throw new IdNotFoundException();
+        } else {
+            return results.get(0).toString();
+        }
+    }
+
+    public static Object findResultById(int id, Class entity) {
+        return entityManager.find(entity, id);
+    }
+
+    public static void add(Object entity) {
+        entityManager.persist(entity);
+    }
+
+    public static void update(Object entity) {
+        entityManager.merge(entity);
+    }
+
+    public static void remove(Object entity) {
+        entityManager.remove(entity);
+    }
+}

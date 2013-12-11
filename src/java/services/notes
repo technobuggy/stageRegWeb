@@ -1,0 +1,4 @@
+@transaction bij quasi elke service zetten, in feite is dit niet nodig bij 
+read operations. Tenzij read operations @transaction methodes oproepen
+
+gefaalde transactie = rollback ipv commit

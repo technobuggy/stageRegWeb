@@ -1,0 +1,101 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package helper;
+
+import exceptions.IdNotFoundException;
+import exceptions.QueryParameterMissmatch;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**Implements various, often reused query methods
+ *
+ * @version 1.1
+ * @author pieter
+ */
+public final class Queries {
+
+    @PersistenceContext
+    private static EntityManager entityManager;
+
+    private Queries() {
+
+    }
+
+    /**Basic single result by ID method with custom queries.
+     *
+     * @param id query id
+     * @param entityObjectClass the class in which the query resides
+     * @param namedQuery the name of the query to be used
+     * @return toString() result of the queried object
+     * @throws IllegalArgumentException All exceptions regarding ID's
+     */
+    public static String getResultById(int id, Class entityObjectClass, String namedQuery) throws IllegalArgumentException {
+        //validate the input id parameter
+        idValidator.validate(id);
+
+        //Build query        
+        Query query = entityManager.createNamedQuery(namedQuery, entityObjectClass);
+        try {
+            query.setParameter("id", id);
+        } catch (Exception e) {
+            //throw new exception with the original stack trace
+            throw new QueryParameterMissmatch("The query id parameter is not set to \":id\" in query " + namedQuery, e);
+        }
+
+        //Fetch results
+        List results = query.getResultList();
+
+        //Check results
+        if (results.isEmpty()) {
+            throw new IdNotFoundException();
+        } else {
+            return results.get(0).toString();
+        }
+    }
+
+    //TODO: check if query exists
+    public static Object findAllResults(Class entity) throws QueryParameterMissmatch {
+        try{
+            return entityManager.createNamedQuery("findAll", entity);
+        } catch (Exception e) {
+            throw new QueryParameterMissmatch("No findAll parameter found", e);
+        }
+        
+    }
+    /**
+     * Uses entitymanagers find method to fetch data based on id
+     * 
+     * @param id The id to query
+     * @param entity The entity class to be used
+     * @return Returns an object with the results
+     */
+    public static Object findResultById(int id, Class entity) {
+        return entityManager.find(entity, id);
+    }
+    /**
+     * Persists an object to the database
+     * @param entity The object to add
+     */
+    public static void add(Object entity) {
+        entityManager.persist(entity);
+    }
+    /** Updates an entity
+     * 
+     * @param entity The object to modify
+     */
+    public static void update(Object entity) {
+        entityManager.merge(entity);
+    }
+    /**Removes an object
+     * 
+     * @param entity The object to remove
+     */
+    public static void remove(Object entity) {
+        entityManager.remove(entity);
+    }
+}
